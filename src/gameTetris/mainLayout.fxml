@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
@@ -8,16 +9,16 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 <?import javafx.geometry.Insets?>
-<BorderPane prefHeight="400.0" prefWidth="600.0"
+<BorderPane fx:id="mainPane"
             stylesheets="@styles/tetrisStyle.css"
             xmlns="http://javafx.com/javafx/8.0.121"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="gameTetris.Controller">
 
-    <padding><Insets top="5" right="5" bottom="5" left="5"/></padding>
+    <padding><Insets bottom="5" left="5" right="5" top="5" /></padding>
     <left>
         <GridPane alignment="TOP_CENTER" hgap="10" prefWidth="100" vgap="10">
-            <padding><Insets top="20"/></padding>
+            <padding><Insets top="20" /></padding>
 
             <Label text="Score:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <Label id="score" contentDisplay="CENTER" text="0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
@@ -35,7 +36,7 @@
 
     <right>
         <GridPane alignment="TOP_CENTER" hgap="10" prefWidth="100" vgap="10">
-            <padding><Insets top="20"/></padding>
+            <padding><Insets top="20" /></padding>
 
             <Label text="Next piece:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <Label id="score" contentDisplay="CENTER" text="0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
