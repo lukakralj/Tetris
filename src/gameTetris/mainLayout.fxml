@@ -7,20 +7,24 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
+<?import javafx.geometry.Insets?>
 <BorderPane prefHeight="400.0" prefWidth="600.0"
-            stylesheets="styles/tetrisStyle.css"
+            stylesheets="@styles/tetrisStyle.css"
             xmlns="http://javafx.com/javafx/8.0.121"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="gameTetris.Main">
+            fx:controller="gameTetris.Controller">
 
+    <padding><Insets top="5" right="5" bottom="5" left="5"/></padding>
     <left>
-        <GridPane alignment="CENTER" hgap="10" prefWidth="100" vgap="10">
-            <Label text="Score:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <Label id="scoreLabel" contentDisplay="CENTER" text="0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <GridPane alignment="TOP_CENTER" hgap="10" prefWidth="100" vgap="10">
+            <padding><Insets top="20"/></padding>
 
-            <Button id="startButton" text="Start" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-            <Button id="pauseButton" text="Start" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-            <Button id="resetButton" text="Start" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+            <Label text="Score:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Label id="score" contentDisplay="CENTER" text="0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+            <Button id="startButton" text="Start" GridPane.columnIndex="0" GridPane.rowIndex="5" onAction="#handleStartButton"/>
+            <Button id="pauseButton" text="Pause" GridPane.columnIndex="0" GridPane.rowIndex="6" onAction="#handlePauseButton"/>
+            <Button id="resetButton" text="Reset" GridPane.columnIndex="0" GridPane.rowIndex="7" onAction="#handleResetButton"/>
 
         </GridPane>
     </left>
@@ -30,7 +34,15 @@
     </center>
 
     <right>
+        <GridPane alignment="TOP_CENTER" hgap="10" prefWidth="100" vgap="10">
+            <padding><Insets top="20"/></padding>
 
+            <Label text="Next piece:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Label id="score" contentDisplay="CENTER" text="0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+
+
+        </GridPane>
     </right>
 
 </BorderPane>
