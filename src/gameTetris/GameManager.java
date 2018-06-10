@@ -1,6 +1,8 @@
 package gameTetris;
 
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
+
 
 /**
  * This class controls the game flow. When it is running
@@ -26,6 +28,9 @@ public class GameManager implements Runnable {
         this.grid = grid;
         running = false;
         paused = false;
+        resetGame();
+
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, this::keyPressed);
     }
 
     /**
@@ -33,20 +38,20 @@ public class GameManager implements Runnable {
      */
     @Override
     public void run() {
+
         running = true;
         while (running) {
             while (paused) {
-                try {
-                    // Shorten this time if need more frequent checking if the game is paused.
-                    Thread.sleep(100);
-                }
-                catch (InterruptedException e) {
-                    continue;
-                }
+                // Shorten this time if need more frequent checking if the game is paused.
+                sleep(100);
             }
-            // TODO: add code to move blocks, delete full rows, count points etc.
-            grid.test();
+            grid.step();
+            sleep(2000);
         }
+    }
+
+    private void keyPressed(KeyEvent e) {
+        System.out.println("KEY TYPED - CODE IS: |" + e.getCode() + "|");
     }
 
     /**
@@ -76,5 +81,19 @@ public class GameManager implements Runnable {
      */
     public void resetGame() {
         grid.reset();
+    }
+
+    /**
+     * Sleep for some time.
+     *
+     * @param millis Time in milliseconds.
+     */
+    private void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

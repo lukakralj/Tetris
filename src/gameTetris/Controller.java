@@ -1,5 +1,6 @@
 package gameTetris;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -19,6 +20,7 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
     private GameManager gameManager;
     private Thread currentThread;
+    private MyGrid grid;
 
     @FXML private Label score;
     @FXML private Button startButton;
@@ -34,8 +36,11 @@ public class Controller implements Initializable {
     @FXML
     public void initialize(URL arg0, ResourceBundle res) {
         MyGrid gridPane = new MyGrid();
-        gameManager = new GameManager(Main.getMainScene(), gridPane);
+        grid = gridPane;
         mainPane.setCenter(gridPane);
+        startButton.setFocusTraversable(false);
+        pauseButton.setFocusTraversable(false);
+        resetButton.setFocusTraversable(false);
     }
 
     /**
@@ -50,7 +55,7 @@ public class Controller implements Initializable {
             gameManager.resume();
         }
         else {
-            gameManager.resetGame();
+            gameManager = new GameManager(Main.getMainScene(), grid);
             currentThread = new Thread(gameManager);
             currentThread.start();
         }

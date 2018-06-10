@@ -21,11 +21,11 @@
             <padding><Insets top="20" /></padding>
 
             <Label text="Score:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <Label id="score" contentDisplay="CENTER" text="0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <Label fx:id="score" contentDisplay="CENTER" text="0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
-            <Button id="startButton" text="Start" GridPane.columnIndex="0" GridPane.rowIndex="5" onAction="#handleStartButton"/>
-            <Button id="pauseButton" text="Pause" GridPane.columnIndex="0" GridPane.rowIndex="6" onAction="#handlePauseButton"/>
-            <Button id="resetButton" text="Reset" GridPane.columnIndex="0" GridPane.rowIndex="7" onAction="#handleResetButton"/>
+            <Button fx:id="startButton" text="Start" GridPane.columnIndex="0" GridPane.rowIndex="5" onAction="#handleStartButton"/>
+            <Button fx:id="pauseButton" text="Pause" GridPane.columnIndex="0" GridPane.rowIndex="6" onAction="#handlePauseButton"/>
+            <Button fx:id="resetButton" text="Reset" GridPane.columnIndex="0" GridPane.rowIndex="7" onAction="#handleResetButton"/>
 
         </GridPane>
     </left>
@@ -39,7 +39,7 @@
             <padding><Insets top="20" /></padding>
 
             <Label text="Next piece:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <Label id="score" contentDisplay="CENTER" text="0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <Label contentDisplay="CENTER" text="0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
 
 
