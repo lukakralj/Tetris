@@ -2,14 +2,28 @@ package gameTetris;
 
 import javafx.scene.layout.TilePane;
 
+/**
+ * This class represents the main grid of the game.
+ * The grid is composed of Tiles.
+ *
+ * @author Luka Kralj
+ * @version 10 June 2018
+ */
 public class MyGrid extends TilePane {
+    /** Size of one side of a square tile. */
     private static final int CELL_DIMENS = 15;
     private static final int NO_COL = 20;
     private static final int NO_ROW = 40;
 
     private Tile[][] grid;
 
+    /**
+     * Create new grid of Tiles.
+     *
+     * @see TilePane
+     */
     public MyGrid() {
+        super();
         grid = new Tile[NO_COL][NO_ROW];
         setVgap(1);
         setHgap(1);
@@ -26,6 +40,9 @@ public class MyGrid extends TilePane {
         }
     }
 
+    /**
+     * Free all the cells in the grid.
+     */
     public void reset() {
         for (int col = 0; col < NO_COL; col++) {
             for (int row = 0; row < NO_ROW; row++) {

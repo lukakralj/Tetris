@@ -6,10 +6,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
+/**
+ * This class starts the application and loads the main scene.
+ *
+ * @author Luka Kralj
+ * @version 9 June 2018
+ */
 public class Main extends Application {
     private static Scene mainScene;
 
+    /**
+     * @see Application
+     */
     @Override
     public void start(Stage stage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("mainLayout.fxml"));
@@ -23,14 +31,18 @@ public class Main extends Application {
         stage.show();
     }
 
+    /**
+     *
+     * @return Main scene of the game.
+     */
     public static Scene getMainScene() {
         return mainScene;
     }
 
-
+    /**
+     * Launch the application.
+     */
     public static void main(String[] args) {
         launch(args);
     }
-
-
 }
