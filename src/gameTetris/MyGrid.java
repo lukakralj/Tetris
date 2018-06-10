@@ -33,4 +33,9 @@ public class MyGrid extends TilePane {
             }
         }
     }
+
+    public void test() {
+        grid[14][35].occupy("-fx-background-color: cyan;");
+        System.out.println(System.currentTimeMillis());
+    }
 }
