@@ -42,7 +42,7 @@ public abstract class Shape {
      * @return Width of the shape.
      */
     public int getWidth() {
-        return currentSchema.length;
+        return currentSchema[0].length;
     }
 
     /**
@@ -50,7 +50,7 @@ public abstract class Shape {
      * @return Height of the shape.
      */
     public int getHeight() {
-        return currentSchema[0].length;
+        return currentSchema.length;
     }
 
     /**

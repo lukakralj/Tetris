@@ -30,7 +30,7 @@ public class MyGrid extends TilePane {
      */
     public MyGrid() {
         super();
-        grid = new Tile[NO_COL][NO_ROW];
+        grid = new Tile[NO_ROW][NO_COL];
         currentShape = null;
         shapeStart = new int[2];
 
@@ -39,12 +39,12 @@ public class MyGrid extends TilePane {
         setPrefColumns(NO_COL);
         setPrefRows(NO_ROW);
         for (int col = 0; col < NO_COL; col++) {
-            for (int row = 0; row < 1; row++) {
+            for (int row = 0; row < NO_ROW; row++) {
                 Tile tile = new Tile();
                 tile.setMinSize(CELL_DIMENS, CELL_DIMENS);
                 tile.setMaxSize(CELL_DIMENS, CELL_DIMENS);
                 getChildren().add(tile);
-                grid[col][row] = tile;
+                grid[row][col] = tile;
             }
         }
     }
@@ -55,7 +55,7 @@ public class MyGrid extends TilePane {
     public void reset() {
         for (int col = 0; col < NO_COL; col++) {
             for (int row = 0; row < NO_ROW; row++) {
-                grid[col][row].free();
+                grid[row][col].free();
             }
         }
     }
@@ -65,8 +65,8 @@ public class MyGrid extends TilePane {
             currentShape = getRandomShape();
             Random rand = new Random();
             int col = rand.nextInt(NO_COL - currentShape.getWidth());
-            shapeStart[0] = col;
-            shapeStart[1] = - currentShape.getHeight();
+            shapeStart[0] = - currentShape.getHeight();
+            shapeStart[1] = col;
         }
 
         moveOneDown();
@@ -106,9 +106,9 @@ public class MyGrid extends TilePane {
      * @return True if the shape can be moved down, false otherwise.
      */
     private boolean canDrop() {
-        for (int col = shapeStart[0]; col < shapeStart[0] + currentShape.getWidth(); col++) {
-            if (!grid[col][shapeStart[1] + currentShape.getHeight()].isEmpty()) {
-                if (currentShape.getCurrentSchema()[col - shapeStart[0]][currentShape.getHeight() - 1] == 1) {
+        for (int col = shapeStart[1]; col < shapeStart[1] + currentShape.getWidth(); col++) {
+            if (!grid[shapeStart[0] + currentShape.getHeight()][col].isEmpty()) {
+                if (currentShape.getCurrentSchema()[currentShape.getHeight() - 1][col - shapeStart[1]] == 1) {
                     return false;
                 }
             }
@@ -117,22 +117,24 @@ public class MyGrid extends TilePane {
     }
 
     private void performDrop() {
-        for (int row = shapeStart[1] + currentShape.getHeight() - 1; row >= 0; row--) {
-            for (int col = shapeStart[0]; col < shapeStart[0] + currentShape.getWidth(); col++) {
-                if (currentShape.getCurrentSchema()[col - shapeStart[0]][row - shapeStart[1]] == 1) {
-                    grid[col][row].occupy(currentShape.getStyleColour());
-                    grid[col][row].free();
+        for (int row = shapeStart[0] + currentShape.getHeight() - 1; row > 0; row--) {
+            for (int col = shapeStart[1]; col < shapeStart[1] + currentShape.getWidth(); col++) {
+                System.out.println("row - shapeStart[0] = " + (row - shapeStart[0]) + "; col - shapeStart[1] = " + (col - shapeStart[1]));
+                System.out.println(currentShape.getCurrentSchema().length + "; " + currentShape.getCurrentSchema()[0].length);
+                if (currentShape.getCurrentSchema()[row - shapeStart[0]][col - shapeStart[1]] == 1) {
+                    grid[row][col].occupy(currentShape.getStyleColour());
+                    grid[row][col].free();
                 }
             }
         }
         if (shapeStart[1] < 0) {
-            for (int col = shapeStart[0]; col < shapeStart[0] + currentShape.getWidth(); col++) {
-                if (currentShape.getCurrentSchema()[col - shapeStart[0]][- shapeStart[1] - 1] == 1) {
-                    grid[col][0].occupy(currentShape.getStyleColour());
+            for (int col = shapeStart[1]; col < shapeStart[1] + currentShape.getWidth(); col++) {
+                if (currentShape.getCurrentSchema()[- shapeStart[0] - 1][col - shapeStart[1]] == 1) {
+                    grid[0][col].occupy(currentShape.getStyleColour());
                 }
             }
         }
-        shapeStart[1]++;
+        shapeStart[0]++;
     }
 
     private void checkFullRows() {
