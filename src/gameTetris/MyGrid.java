@@ -56,6 +56,7 @@ public class MyGrid extends TilePane {
         for (int col = 0; col < NO_COL; col++) {
             for (int row = 0; row < NO_ROW; row++) {
                 grid[row][col].free();
+                currentShape = null;
             }
         }
     }
