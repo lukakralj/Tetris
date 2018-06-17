@@ -231,10 +231,93 @@ public class MyGrid extends TilePane {
      * Rotate the shape.
      */
     public void rotate() {
-        // TODO: method behaves abnormally
-        if (currentShape == null) {
+        if (currentShape == null || currentShape instanceof O) {
             return;
         }
+        //TODO: try to fix to work with all negative rows
+        if (shapeStart[0] < 0) {
+            return;
+        }
+
+        clearOldSchema();
+
+        int[][] old = currentShape.getCurrentSchema();
+        int oldW = currentShape.getWidth();
+
         currentShape.rotate();
+
+        if (oldW >= currentShape.getWidth()) {
+            for (int i = 0; i < currentShape.getHeight(); i++){
+                if (canBeDrawn()) {
+                    drawShape();
+                    return;
+                }
+                else {
+                    shapeStart[0]--;
+                }
+            }
+        }
+        else {
+            for (int i = 0; i < currentShape.getWidth(); i++){
+                if (NO_COL - shapeStart[1] < currentShape.getWidth()) {
+                    if (shapeStart[1] == 0) {
+                        break;
+                    }
+                    else {
+                        shapeStart[1]--;
+                    }
+                }
+                if (canBeDrawn()) {
+                    drawShape();
+                    return;
+                }
+            }
+        }
+        currentShape.setCurrentSchema(old);
+        drawShape();
     }
+
+    private void clearOldSchema() {
+        for (int col = shapeStart[1]; col < shapeStart[1] + currentShape.getWidth(); col++) {
+            for (int row = shapeStart[0]; row < shapeStart[0] + currentShape.getHeight(); row++) {
+                if (row < 0) {
+                    continue;
+                }
+                if (currentShape.getCurrentSchema()[row - shapeStart[0]][col - shapeStart[1]] == 1) {
+                    grid[row][col].free();
+                }
+            }
+        }
+    }
+
+    private void drawShape() {
+        for (int col = shapeStart[1]; col < shapeStart[1] + currentShape.getWidth(); col++) {
+            for (int row = shapeStart[0]; row < shapeStart[0] + currentShape.getHeight(); row++) {
+                if (row < 0) {
+                    continue;
+                }
+                if (currentShape.getCurrentSchema()[row - shapeStart[0]][col - shapeStart[1]] == 1) {
+                    grid[row][col].occupy(currentShape.getStyleColour());
+                }
+            }
+        }
+    }
+
+    private boolean canBeDrawn() {
+        for (int col = shapeStart[1]; col < shapeStart[1] + currentShape.getWidth(); col++) {
+            for (int row = shapeStart[0]; row < shapeStart[0] + currentShape.getHeight(); row++) {
+                if (currentShape.getCurrentSchema()[row - shapeStart[0]][col - shapeStart[1]] == 1) {
+                    if (row < 0) {
+                        continue;
+                    }
+                    if (!grid[row][col].isEmpty()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+
 }

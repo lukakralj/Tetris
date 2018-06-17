@@ -54,6 +54,16 @@ public abstract class Shape {
     }
 
     /**
+     * Set new schema to the shape. Must be one of the
+     * schemas defined for that shape.
+     *
+     * @param newSchema New schema for the shape.
+     */
+    public void setCurrentSchema(int[][] newSchema) {
+        currentSchema = newSchema;
+    }
+
+    /**
      * Rotate the shape clockwise by changing its
      * schema appropriately.
      */
