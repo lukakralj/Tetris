@@ -61,6 +61,10 @@ public class MyGrid extends TilePane {
         }
     }
 
+    /**
+     * Performs one step in the game. Organizes drop,
+     * shape creation, rows elimination etc..
+     */
     public void step() {
         if (currentShape == null) {
             currentShape = getRandomShape();
@@ -91,7 +95,15 @@ public class MyGrid extends TilePane {
         }
     }
 
+    /**
+     * Moves the shape one rows down, or freezes it in place
+     * if it reaches the end. Does not actually perform the drop of
+     * the shape.
+     */
     public void moveOneDown() {
+        if (currentShape == null) {
+            return;
+        }
         if (canDrop()) {
             performDrop();
         }
@@ -108,6 +120,9 @@ public class MyGrid extends TilePane {
      */
     private boolean canDrop() {
         for (int col = shapeStart[1]; col < shapeStart[1] + currentShape.getWidth(); col++) {
+            if (shapeStart[0] + currentShape.getHeight() == NO_ROW) {
+                return false;
+            }
             if (!grid[shapeStart[0] + currentShape.getHeight()][col].isEmpty()) {
                 if (currentShape.getCurrentSchema()[currentShape.getHeight() - 1][col - shapeStart[1]] == 1) {
                     return false;
@@ -117,6 +132,9 @@ public class MyGrid extends TilePane {
         return true;
     }
 
+    /**
+     * Moves the shape one row down and updates the tiles accordingly.
+     */
     private void performDrop() {
         for (int i = 0; i < currentShape.getHeight(); i++) {
             int row = shapeStart[0] + currentShape.getHeight() - i;
@@ -130,20 +148,38 @@ public class MyGrid extends TilePane {
                     }
                 }
             }
+            else {
+                break;
+            }
         }
         shapeStart[0]++;
     }
 
+    /**
+     * Check if there are any new rows and remove them.
+     */
     private void checkFullRows() {
         System.out.println("Checked full rows.");
     }
 
+    /**
+     * Moves the shape one column to the left, if possible.
+     */
     public void moveOneLeft() {
-
+        if (currentShape == null) {
+            return;
+        }
+        System.out.println("LEFT pressed");
     }
 
+    /**
+     * Moves the shape one column to the right, if possible.
+     */
     public void moveOneRight() {
-
+        if (currentShape == null) {
+            return;
+        }
+        System.out.println("RIGHT pressed");
     }
 
 

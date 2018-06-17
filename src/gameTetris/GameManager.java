@@ -1,6 +1,7 @@
 package gameTetris;
 
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 
@@ -51,7 +52,13 @@ public class GameManager implements Runnable {
     }
 
     private void keyPressed(KeyEvent e) {
-        System.out.println("KEY TYPED - CODE IS: |" + e.getCode() + "|");
+        switch (e.getCode()) {
+            case DOWN: grid.moveOneDown(); break;
+            case UP: System.out.println("UP pressed"); break;
+            case LEFT: grid.moveOneLeft(); break;
+            case RIGHT: grid.moveOneRight(); break;
+            case SPACE: System.out.println("SPACE pressed"); break;
+        }
     }
 
     /**
