@@ -22,6 +22,8 @@ public class MyGrid extends TilePane {
     /** Top left corner of the shape's schema. */
     private int[] shapeStart;
 
+    private int countSZ;
+
     /**
      * Create new grid of Tiles.
      *
@@ -32,6 +34,7 @@ public class MyGrid extends TilePane {
         grid = new Tile[NO_ROW][NO_COL];
         currentShape = null;
         shapeStart = new int[2];
+        countSZ = 0;
 
         setVgap(1);
         setHgap(1);
@@ -83,16 +86,48 @@ public class MyGrid extends TilePane {
      * @return One of seven possible shapes.
      */
     private Shape getRandomShape() {
-        // TODO: Update method when more shapes are added.
         Random rand = new Random();
-        int next = rand.nextInt(2);
+        int next;
 
-        if (next == 0) {
-            return new O();
+        if (countSZ == 4) {
+            next = rand.nextInt(5);
         }
         else {
-            return new I();
+            next = rand.nextInt(7);
         }
+
+        Shape toReturn = null;
+        switch (next) {
+            case 0:
+                countSZ = 0;
+                toReturn = new O();
+                break;
+            case 1:
+                countSZ = 0;
+                toReturn = new I();
+                break;
+            case 2:
+                countSZ = 0;
+                toReturn = new J();
+                break;
+            case 3:
+                countSZ = 0;
+                toReturn = new L();
+                break;
+            case 4:
+                countSZ = 0;
+                toReturn = new T();
+                break;
+            case 5:
+                countSZ++;
+                toReturn = new S();
+                break;
+            case 6:
+                countSZ++;
+                toReturn = new Z();
+                break;
+        }
+        return toReturn;
     }
 
     /**
@@ -123,8 +158,18 @@ public class MyGrid extends TilePane {
             if (shapeStart[0] + currentShape.getHeight() == NO_ROW) {
                 return false;
             }
-            if (!grid[shapeStart[0] + currentShape.getHeight()][col].isEmpty()) {
-                if (currentShape.getCurrentSchema()[currentShape.getHeight() - 1][col - shapeStart[1]] == 1) {
+            if (currentShape.getCurrentSchema()[currentShape.getHeight() - 1][col - shapeStart[1]] == 1) {
+                if (!grid[shapeStart[0] + currentShape.getHeight()][col].isEmpty()) {
+                    {
+                        return false;
+                    }
+                }
+            }
+            else {
+                if (shapeStart[0] + currentShape.getHeight() - 1 == -1) {
+                    continue;
+                }
+                else if (!grid[shapeStart[0] + currentShape.getHeight() - 1][col].isEmpty()) {
                     return false;
                 }
             }
@@ -182,5 +227,14 @@ public class MyGrid extends TilePane {
         System.out.println("RIGHT pressed");
     }
 
-
+    /**
+     * Rotate the shape.
+     */
+    public void rotate() {
+        // TODO: method behaves abnormally
+        if (currentShape == null) {
+            return;
+        }
+        currentShape.rotate();
+    }
 }

@@ -47,14 +47,14 @@ public class GameManager implements Runnable {
                 sleep(100);
             }
             grid.step();
-            sleep(1000);
+            sleep(80);
         }
     }
 
     private void keyPressed(KeyEvent e) {
         switch (e.getCode()) {
             case DOWN: grid.moveOneDown(); break;
-            case UP: System.out.println("UP pressed"); break;
+            case UP: grid.rotate(); break;
             case LEFT: grid.moveOneLeft(); break;
             case RIGHT: grid.moveOneRight(); break;
             case SPACE: System.out.println("SPACE pressed"); break;
