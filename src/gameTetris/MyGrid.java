@@ -55,7 +55,7 @@ public class MyGrid extends TilePane {
     /**
      * Free all the cells in the grid.
      */
-    public void reset() {
+    public synchronized void reset() {
         for (int col = 0; col < NO_COL; col++) {
             for (int row = 0; row < NO_ROW; row++) {
                 grid[row][col].free();
@@ -68,7 +68,7 @@ public class MyGrid extends TilePane {
      * Performs one step in the game. Organizes drop,
      * shape creation, rows elimination etc..
      */
-    public void step() {
+    public synchronized void step() {
         if (currentShape == null) {
             currentShape = getRandomShape();
             Random rand = new Random();
@@ -83,7 +83,7 @@ public class MyGrid extends TilePane {
      *
      * @return One of seven possible shapes.
      */
-    private Shape getRandomShape() {
+    private synchronized Shape getRandomShape() {
         Random rand = new Random();
         int next;
 
@@ -133,7 +133,7 @@ public class MyGrid extends TilePane {
      * if it reaches the end. Does not actually perform the drop of
      * the shape.
      */
-    public void moveOneDown() {
+    public synchronized void moveOneDown() {
         if (currentShape == null) {
             return;
         }
@@ -151,7 +151,7 @@ public class MyGrid extends TilePane {
      *
      * @return True if the shape can be moved down, false otherwise.
      */
-    private boolean canDrop() {
+    private synchronized boolean canDrop() {
         clearOldSchema();
         shapeStart[0]++;
         boolean canDrop = canBeDrawn();
@@ -163,7 +163,7 @@ public class MyGrid extends TilePane {
     /**
      * Moves the shape one row down and updates the tiles accordingly.
      */
-    private void performDrop() {
+    private synchronized void performDrop() {
         clearOldSchema();
         shapeStart[0]++;
         drawShape();
@@ -172,14 +172,14 @@ public class MyGrid extends TilePane {
     /**
      * Check if there are any new rows and remove them.
      */
-    private void checkFullRows() {
+    private synchronized void checkFullRows() {
         System.out.println("Checked full rows.");
     }
 
     /**
      * Rotate the shape.
      */
-    public void rotate() {
+    public synchronized void rotate() {
         if (currentShape == null || currentShape instanceof O) {
             return;
         }
@@ -229,7 +229,7 @@ public class MyGrid extends TilePane {
     /**
      * Clear old shape to free the cells where the new schema might be drawn.
      */
-    private void clearOldSchema() {
+    private synchronized void clearOldSchema() {
         for (int col = shapeStart[1]; col < shapeStart[1] + currentShape.getWidth(); col++) {
             for (int row = shapeStart[0]; row < shapeStart[0] + currentShape.getHeight(); row++) {
                 if (row < 0) {
@@ -245,7 +245,7 @@ public class MyGrid extends TilePane {
     /**
      * Draw the shape according to the new schema and position.
      */
-    private void drawShape() {
+    private synchronized void drawShape() {
         for (int col = shapeStart[1]; col < shapeStart[1] + currentShape.getWidth(); col++) {
             for (int row = shapeStart[0]; row < shapeStart[0] + currentShape.getHeight(); row++) {
                 if (row < 0) {
@@ -263,7 +263,7 @@ public class MyGrid extends TilePane {
      *
      * @return True if the shape can be drawn.
      */
-    private boolean canBeDrawn() {
+    private synchronized boolean canBeDrawn() {
         for (int col = shapeStart[1]; col < shapeStart[1] + currentShape.getWidth(); col++) {
             for (int row = shapeStart[0]; row < shapeStart[0] + currentShape.getHeight(); row++) {
                 if (currentShape.getCurrentSchema()[row - shapeStart[0]][col - shapeStart[1]] == 1) {
@@ -285,20 +285,30 @@ public class MyGrid extends TilePane {
     /**
      * Moves the shape one column to the left, if possible.
      */
-    public void moveOneLeft() {
-        if (currentShape == null) {
+    public synchronized void moveOneLeft() {
+        if (currentShape == null || shapeStart[1] == 0) {
             return;
         }
-        System.out.println("LEFT pressed");
+        clearOldSchema();
+        shapeStart[1]--;
+        if (!canBeDrawn()) {
+            shapeStart[1]++;
+        }
+        drawShape();
     }
 
     /**
      * Moves the shape one column to the right, if possible.
      */
-    public void moveOneRight() {
-        if (currentShape == null) {
+    public synchronized void moveOneRight() {
+        if (currentShape == null || shapeStart[1] + currentShape.getWidth() == NO_COL) {
             return;
         }
-        System.out.println("RIGHT pressed");
+        clearOldSchema();
+        shapeStart[1]++;
+        if (!canBeDrawn()) {
+            shapeStart[1]--;
+        }
+        drawShape();
     }
 }

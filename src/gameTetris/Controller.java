@@ -34,6 +34,7 @@ public class Controller implements Initializable {
      */
     @FXML
     public void initialize(URL arg0, ResourceBundle res) {
+        gameManager = null;
         MyGrid gridPane = new MyGrid();
         grid = gridPane;
         mainPane.setCenter(gridPane);
@@ -54,7 +55,9 @@ public class Controller implements Initializable {
             gameManager.resume();
         }
         else {
-            gameManager = new GameManager(Main.getMainScene(), grid);
+            if (gameManager == null) {
+                gameManager = new GameManager(Main.getMainScene(), grid);
+            }
             currentThread = new Thread(gameManager);
             currentThread.start();
         }
