@@ -45,7 +45,7 @@ public class GameManager implements Runnable {
                 sleep(100);
             }
             grid.step();
-            sleep(500);
+            sleep(100);
         }
     }
 
