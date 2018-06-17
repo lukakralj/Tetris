@@ -13,7 +13,6 @@ import javafx.scene.input.KeyEvent;
  * @version 10 June 2018
  */
 public class GameManager implements Runnable {
-    private Scene scene;
     private MyGrid grid;
     private boolean running;
     private boolean paused;
@@ -25,7 +24,6 @@ public class GameManager implements Runnable {
      * @param grid Grid of Tiles to operate on.
      */
     public GameManager(Scene scene, MyGrid grid) {
-        this.scene = scene;
         this.grid = grid;
         running = false;
         paused = false;
@@ -47,7 +45,7 @@ public class GameManager implements Runnable {
                 sleep(100);
             }
             grid.step();
-            sleep(100);
+            sleep(500);
         }
     }
 

@@ -277,6 +277,9 @@ public class MyGrid extends TilePane {
         drawShape();
     }
 
+    /**
+     * Clear old shape to free the cells where the new schema might be drawn.
+     */
     private void clearOldSchema() {
         for (int col = shapeStart[1]; col < shapeStart[1] + currentShape.getWidth(); col++) {
             for (int row = shapeStart[0]; row < shapeStart[0] + currentShape.getHeight(); row++) {
@@ -290,6 +293,9 @@ public class MyGrid extends TilePane {
         }
     }
 
+    /**
+     * Draw the shape according to the new schema and position.
+     */
     private void drawShape() {
         for (int col = shapeStart[1]; col < shapeStart[1] + currentShape.getWidth(); col++) {
             for (int row = shapeStart[0]; row < shapeStart[0] + currentShape.getHeight(); row++) {
@@ -303,6 +309,11 @@ public class MyGrid extends TilePane {
         }
     }
 
+    /**
+     * Check if the shape can be drawn with the current schema and position.
+     *
+     * @return True if the shape can be drawn.
+     */
     private boolean canBeDrawn() {
         for (int col = shapeStart[1]; col < shapeStart[1] + currentShape.getWidth(); col++) {
             for (int row = shapeStart[0]; row < shapeStart[0] + currentShape.getHeight(); row++) {
