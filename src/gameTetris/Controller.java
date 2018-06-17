@@ -1,6 +1,5 @@
 package gameTetris;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -15,7 +14,7 @@ import java.util.ResourceBundle;
  * @author Luka Kralj
  * @version 10 June 2018
  *
- * TODO: dissable buttons when appropriate.
+ * TODO: disable buttons when appropriate.
  */
 public class Controller implements Initializable {
     private GameManager gameManager;
@@ -94,5 +93,16 @@ public class Controller implements Initializable {
             currentThread = null;
         }
         gameManager.resetGame();
+    }
+
+    /**
+     * Increment players points.
+     *
+     * @param toAdd Points to add to the total sum.
+     */
+    @FXML
+    public void incrementScore(int toAdd) {
+        int current = Integer.parseInt(score.getText());
+        score.setText("" + (current + toAdd));
     }
 }
