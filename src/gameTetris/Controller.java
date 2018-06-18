@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
  * Controls the UI components and calls appropriate methods.
  *
  * @author Luka Kralj
- * @version 10 June 2018
+ * @version 18 June 2018
  *
  * TODO: disable buttons when appropriate.
  */
@@ -35,7 +35,7 @@ public class Controller implements Initializable {
     @FXML
     public void initialize(URL arg0, ResourceBundle res) {
         gameManager = null;
-        MyGrid gridPane = new MyGrid();
+        MyGrid gridPane = new MyGrid(this);
         grid = gridPane;
         mainPane.setCenter(gridPane);
         startButton.setFocusTraversable(false);
@@ -104,7 +104,7 @@ public class Controller implements Initializable {
      * @param toAdd Points to add to the total sum.
      */
     @FXML
-    public void incrementScore(int toAdd) {
+    public synchronized void incrementScore(int toAdd) {
         int current = Integer.parseInt(score.getText());
         score.setText("" + (current + toAdd));
     }

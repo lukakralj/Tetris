@@ -1,7 +1,6 @@
 package gameTetris;
 
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 
@@ -10,7 +9,7 @@ import javafx.scene.input.KeyEvent;
  * the new shapes will start dropping, etc...
  *
  * @author Luka Kralj
- * @version 10 June 2018
+ * @version 18 June 2018
  */
 public class GameManager implements Runnable {
     private MyGrid grid;
@@ -37,7 +36,6 @@ public class GameManager implements Runnable {
      */
     @Override
     public void run() {
-
         running = true;
         while (running) {
             while (paused) {

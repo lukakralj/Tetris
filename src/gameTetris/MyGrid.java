@@ -9,7 +9,7 @@ import java.util.Random;
  * The grid is composed of Tiles.
  *
  * @author Luka Kralj
- * @version 10 June 2018
+ * @version 18 June 2018
  */
 public class MyGrid extends TilePane {
     /** Size of one side of a square tile. */
@@ -17,6 +17,7 @@ public class MyGrid extends TilePane {
     private static final int NO_COL = 20;
     private static final int NO_ROW = 40;
 
+    volatile private Controller controller;
     volatile private Tile[][] grid;
     volatile private Shape currentShape;
     /** Top left corner of the shape's schema. */
@@ -29,8 +30,9 @@ public class MyGrid extends TilePane {
      *
      * @see TilePane
      */
-    public MyGrid() {
+    public MyGrid(Controller controller) {
         super();
+        this.controller = controller;
         grid = new Tile[NO_ROW][NO_COL];
         currentShape = null;
         shapeStart = new int[2];
@@ -171,9 +173,48 @@ public class MyGrid extends TilePane {
 
     /**
      * Check if there are any new rows and remove them.
+     * TODO: fix: "java.lang.IllegalStateException: Not on FX application thread"
      */
     private synchronized void checkFullRows() {
-        System.out.println("Checked full rows.");
+        for (int row = NO_ROW - 1; row >= 0; row--) {
+            if (row == 0) {
+                // TODO: End game.
+                System.out.println("Game over");
+                return;
+            }
+            int noOfFree = 0;
+            for (int col = 0; col < NO_COL; col++) {
+                if (grid[row][col].isEmpty()) {
+                    noOfFree++;
+                }
+            }
+
+            if (noOfFree == NO_COL) {
+                // The whole line is empty. There cannot be anything above.
+                break;
+            } else if (noOfFree == 0) {
+                removeRow(row);
+                row++; // Check the same line again, after cascading.
+            }
+            // else continue scanning the rows
+        }
+    }
+
+    /**
+     * Removes the row specified and cascades all rows above.
+     *
+     * @param rowToRemove Index of the row to remove.
+     */
+    private synchronized void removeRow(int rowToRemove) {
+        for (int row = rowToRemove; row > 0; row--) {
+            for (int col = 0; col < NO_COL; col++) {
+                grid[row][col].free();
+                if (!grid[row - 1][col].isEmpty()) {
+                    grid[row][col].occupy(grid[row - 1][col].getStyle());
+                }
+            }
+        }
+        controller.incrementScore(10);
     }
 
     /**
