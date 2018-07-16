@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
  * Controls the UI components and calls appropriate methods.
  *
  * @author Luka Kralj
- * @version 10 June 2018
+ * @version 18 June 2018
  *
  * TODO: disable buttons when appropriate.
  */
@@ -34,7 +34,8 @@ public class Controller implements Initializable {
      */
     @FXML
     public void initialize(URL arg0, ResourceBundle res) {
-        MyGrid gridPane = new MyGrid();
+        gameManager = null;
+        MyGrid gridPane = new MyGrid(this);
         grid = gridPane;
         mainPane.setCenter(gridPane);
         startButton.setFocusTraversable(false);
@@ -54,7 +55,9 @@ public class Controller implements Initializable {
             gameManager.resume();
         }
         else {
-            gameManager = new GameManager(Main.getMainScene(), grid);
+            if (gameManager == null) {
+                gameManager = new GameManager(Main.getMainScene(), grid);
+            }
             currentThread = new Thread(gameManager);
             currentThread.start();
         }
@@ -101,8 +104,20 @@ public class Controller implements Initializable {
      * @param toAdd Points to add to the total sum.
      */
     @FXML
-    public void incrementScore(int toAdd) {
+    public synchronized void incrementScore(int toAdd) {
         int current = Integer.parseInt(score.getText());
         score.setText("" + (current + toAdd));
+    }
+
+
+    /**
+     * Toggle the music in the background
+     @param event
+     */
+    @FXML
+    public void handleMusicButton(ActionEvent event){
+        if(currentThread!= null){
+            gameManager.toggleMusic();
+        }
     }
 }

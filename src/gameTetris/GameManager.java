@@ -1,8 +1,12 @@
 package gameTetris;
 
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
+
+import java.io.File;
 
 
 /**
@@ -10,10 +14,12 @@ import javafx.scene.input.KeyEvent;
  * the new shapes will start dropping, etc...
  *
  * @author Luka Kralj
- * @version 10 June 2018
+ * @version 18 June 2018
  */
 public class GameManager implements Runnable {
     private MyGrid grid;
+    private MediaPlayer player;
+    private boolean isMusicPlaying;
     private boolean running;
     private boolean paused;
 
@@ -27,9 +33,25 @@ public class GameManager implements Runnable {
         this.grid = grid;
         running = false;
         paused = false;
+        isMusicPlaying = true;
         resetGame();
-
+        startMusic();
         scene.addEventFilter(KeyEvent.KEY_PRESSED, this::keyPressed);
+    }
+
+
+    /**
+     * Starts the music "korobeiniki"
+     */
+    private void startMusic() {
+        Media media = new Media(new File("src/gameTetris/korobeiniki.mp3").toURI().toString());
+        player = new MediaPlayer(media);
+        player.setOnEndOfMedia(new Runnable() {
+            public void run() {
+                player.seek(Duration.ZERO);
+            }
+        });
+        player.play();
     }
 
     /**
@@ -37,7 +59,6 @@ public class GameManager implements Runnable {
      */
     @Override
     public void run() {
-
         running = true;
         while (running) {
             while (paused) {
@@ -99,6 +120,20 @@ public class GameManager implements Runnable {
         }
         catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Toggles music in the game
+     */
+    public void toggleMusic(){
+        if(isMusicPlaying){
+            player.pause();
+            isMusicPlaying = false;
+        }
+        else {
+            player.play();
+            isMusicPlaying = true;
         }
     }
 }
