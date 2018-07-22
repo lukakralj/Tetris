@@ -108,4 +108,16 @@ public class Controller implements Initializable {
         int current = Integer.parseInt(score.getText());
         score.setText("" + (current + toAdd));
     }
+
+
+    /**
+     * Toggle the music in the background
+     @param event
+     */
+    @FXML
+    public void handleMusicButton(ActionEvent event){
+        if(currentThread!= null){
+            gameManager.toggleMusic();
+        }
+    }
 }

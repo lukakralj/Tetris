@@ -42,6 +42,7 @@ public class MyGrid extends TilePane {
         setHgap(1);
         setPrefColumns(NO_COL);
         setPrefRows(NO_ROW);
+
         for (int row = 0; row < NO_ROW; row++) {
             for (int col = 0; col < NO_COL; col++) {
                 Tile tile = new Tile();
@@ -51,7 +52,92 @@ public class MyGrid extends TilePane {
                 grid[row][col] = tile;
             }
         }
+        try {
+            createTitle("src/gameTetris/title.txt");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    /**
+     * Creates the initial title to be shown and creates the numerical
+     * values of the gaps between the grid and the title in order to fit it
+     * on the screen
+     * @param path the path of the .txt file containing the title information
+     */
+    private void createTitle(String path) throws Exception {
+        int leftGap, bottomGap;
+
+        Title title = new Title(path, this);
+
+        //calculate the values of the gaps based on the grid's size
+
+        //the title's placed in the middle of the grid
+        if((NO_COL - title.getWidth()) % 2 != 0 ){
+            leftGap = (NO_COL + 1 - title.getWidth()) / 2;
+        }
+        else{
+         leftGap = (NO_COL - title.getWidth()) / 2;
+        }
+
+
+        //the title's placed in the lower third of the grid
+        if(NO_ROW % 3 != 0 ){
+            bottomGap = NO_ROW;
+
+            while(bottomGap % 3 != 0){
+            bottomGap --;
+              }
+            bottomGap = bottomGap/ 3 * 2;
+        }
+        else{
+            bottomGap = NO_ROW / 3 * 2;
+        }
+
+
+        //retrieve colors for all the tiles in the grid
+        for (int row = 0; row < NO_ROW; row++) {
+            for (int col = 0; col < NO_COL; col++) {
+               String color = getColorFromPosition(row, col, leftGap, bottomGap, title);
+                grid[row][col].setStyle(color);
+            }
+        }
+    }
+
+
+    /**
+     * Retrieves the color to be assigned to the given pixel
+     * @param row the row of the pixel
+     * @param col the column of the pixel
+     * @param leftGap the gap between the title and the vertical edges of the grid
+     * @param bottomGap the gap between the title and the horizontal edges of the grid
+     * @param title the Title
+     * @return a string containing the .css color information for the given pixel
+     */
+    private String getColorFromPosition(int row, int col, int leftGap, int bottomGap, Title title) {
+
+        String color = "-fx-background-color:";
+
+
+        if(   col >= leftGap
+           && col < NO_COL - leftGap
+           && row > bottomGap
+           && row <= bottomGap + title.getHeight()){
+
+                switch(title.getValueAt(row - bottomGap, col-leftGap)){
+                    case 0 : color += "white;"; break;
+                    case 1:  color += "blue;"; break;
+                    case 2 : color += "yellow;"; break;
+                    case 3:  color += "red;"; break;
+                    case 4 : color += "purple;"; break;
+                    case 5:  color += "black;"; break;
+                    case 6 : color += "green;"; break;
+                    case 7:  color += "grey;"; break;
+                }
+        }
+        else{color+="white;";}
+
+        return color;
     }
 
     /**

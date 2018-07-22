@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     private static Scene mainScene;
 
+
     /**
      * @see Application
      */
@@ -29,6 +30,7 @@ public class Main extends Application {
         stage.setTitle("Tetris");
         stage.setResizable(false);
         stage.show();
+        root.requestFocus();  //deselects buttons
     }
 
     /**
