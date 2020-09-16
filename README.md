@@ -20,6 +20,8 @@ I use two threads to allow the game to pause and resume.<br>
 The size of the grid can be any number of rows and columns, determined by constants in the MyGrid class.
 </p>
 
+Read [a blog post](https://lukakralj.com/tetris/) about this project.
+
 <h2>TODO:</h2>
 <p>
 <ul>
